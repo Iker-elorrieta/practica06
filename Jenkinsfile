@@ -56,6 +56,19 @@ node {
 			reportName: 'Documentacion de proyecto'])   
 	}
 	
+	stage('Generate Cucumber report') {
+cucumber buildStatus: 'UNSTABLE',
+reportTitle: 'Cucumber tests',
+fileIncludePattern: '**/*.json',
+trendsLimit: 10,
+classifications: [
+[
+'key': 'Browser',
+'value': 'Chrome'
+]
+]
+}
+	
 	
 	stage ('Vulnerabilidades en librerias (SAST) - Owasp Dependency Check')
 	{     

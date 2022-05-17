@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.6.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>democn</artifactId>
@@ -16,18 +17,61 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-	
+ <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>7.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.8.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+		</dependency> 
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+	
 	</dependencies>
 
 	<build>
@@ -36,14 +80,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
 					<includes>
 						<include>**/*IT.java</include>
-					</includes>	                
+					</includes>
 				</configuration>
 				<executions>
 					<execution>
@@ -54,24 +98,24 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
-			  <groupId>org.owasp</groupId>
-			  <artifactId>dependency-check-maven</artifactId>
-			  <version>7.0.4</version>
-			  <configuration>					
-					<failBuildOnCVSS>7</failBuildOnCVSS>			
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>7.0.4</version>
+				<configuration>
+					<failBuildOnCVSS>7</failBuildOnCVSS>
 					<!-- Fallar pipeline si hay nuevas vulnerabilidades críticas -->
-					<failedNewCritical>true</failedNewCritical>							
+					<failedNewCritical>true</failedNewCritical>
 					<!-- Generar todos los formatos del informe -->
-					<format>ALL</format>					
-					<!-- Validar si estamos utilizando la última versión -->					
+					<format>ALL</format>
+					<!-- Validar si estamos utilizando la última versión -->
 					<versionCheckEnabled>true</versionCheckEnabled>
 					<!-- No usar Nexus Analyzer -->
 					<centralAnalyzerEnabled>false</centralAnalyzerEnabled>
-			  </configuration>
+				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>br.com.softplan.security.zap</groupId>
 				<artifactId>zap-maven-plugin</artifactId>
@@ -84,54 +128,55 @@
 					<spiderStartingPointUrl>http://localhost:8081/</spiderStartingPointUrl>
 					<zapPath>C:\temp_fp\OWASP\Zed Attack Proxy</zapPath>
 					<shouldRunAjaxSpider>true</shouldRunAjaxSpider>
-				</configuration>				
-			</plugin>		
-			
-			<plugin>
-			  <groupId>com.github.spotbugs</groupId>
-			  <artifactId>spotbugs-maven-plugin</artifactId>
-			  <version>4.6.0.0</version>
-			  <configuration>
-                <includeFilterFile>src/main/resources/spotbugs-security-include.xml</includeFilterFile>
-                <excludeFilterFile>src/main/resources/spotbugs-security-exclude.xml</excludeFilterFile>
-                <plugins>
-                    <plugin>
-                        <groupId>com.h3xstream.findsecbugs</groupId>
-                        <artifactId>findsecbugs-plugin</artifactId>
-                        <version>1.12.0</version>
-                    </plugin>
-                </plugins>
-              </configuration>
-			  <dependencies>
-			    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-			    <dependency>
-			      <groupId>com.github.spotbugs</groupId>
-			      <artifactId>spotbugs</artifactId>
-			      <version>4.6.0</version>
-			    </dependency>
-			  </dependencies>
+				</configuration>
 			</plugin>
-			
+
 			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-site-plugin</artifactId>
-			  <version>3.12.0</version>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.6.0.0</version>
+				<configuration>
+					<includeFilterFile>src/main/resources/spotbugs-security-include.xml</includeFilterFile>
+					<excludeFilterFile>src/main/resources/spotbugs-security-exclude.xml</excludeFilterFile>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>1.12.0</version>
+						</plugin>
+					</plugins>
+				</configuration>
+				<dependencies>
+					<!-- overwrite dependency on spotbugs if you want to specify the version 
+						of spotbugs -->
+					<dependency>
+						<groupId>com.github.spotbugs</groupId>
+						<artifactId>spotbugs</artifactId>
+						<version>4.6.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
-						
-			
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.0</version>
+			</plugin>
+
+
 		</plugins>
 	</build>
-	
-	
+
+
 	<profiles>
 		<profile>
-			<id>jmeterDEV</id>			
+			<id>jmeterDEV</id>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>com.lazerycode.jmeter</groupId>
 						<artifactId>jmeter-maven-plugin</artifactId>
-						<version>2.7.0</version>						
+						<version>2.7.0</version>
 						<executions>
 							<execution>
 								<id>jmeter-tests</id>
@@ -148,48 +193,48 @@
 							</execution>
 						</executions>
 						<configuration>
-							<generateReports>true</generateReports> 
+							<generateReports>true</generateReports>
 							<resultFilesLocations>${project.build.directory}/jmeter/results</resultFilesLocations>
 							<errorRateThresholdInPercent>1</errorRateThresholdInPercent>
 							<jMeterProcessJVMSettings>
-							  <xms>1024</xms>
-							  <xmx>1024</xmx>
-							  <arguments>
-								<argument>-Xprof</argument>
-								<argument>-Xfuture</argument>
-							  </arguments>
+								<xms>1024</xms>
+								<xmx>1024</xmx>
+								<arguments>
+									<argument>-Xprof</argument>
+									<argument>-Xfuture</argument>
+								</arguments>
 							</jMeterProcessJVMSettings>
 							<skipTests>false</skipTests>
-							<testResultsTimestamp>true</testResultsTimestamp>				 
-							<overrideRootLogLevel>DEBUG</overrideRootLogLevel>				 
-							<suppressJMeterOutput>false</suppressJMeterOutput>				 
-							<ignoreResultFailures>true</ignoreResultFailures>				
+							<testResultsTimestamp>true</testResultsTimestamp>
+							<overrideRootLogLevel>DEBUG</overrideRootLogLevel>
+							<suppressJMeterOutput>false</suppressJMeterOutput>
+							<ignoreResultFailures>true</ignoreResultFailures>
 							<propertiesJMeter>
 								<log_level.jmeter>DEBUG</log_level.jmeter>
-								<jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>								
+								<jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
 							</propertiesJMeter>
 							<jmeterPlugins>
 								<plugin>
 									<groupId>kg.apc</groupId>
 									<artifactId>jmeter-plugins</artifactId>
 								</plugin>
-							</jmeterPlugins>	
-							<!-- Adding jar to the /lib directory-->
+							</jmeterPlugins>
+							<!-- Adding jar to the /lib directory -->
 							<testFilesIncluded>
-								<jMeterTestFile>democn_test_plan.jmx</jMeterTestFile>								
+								<jMeterTestFile>democn_test_plan.jmx</jMeterTestFile>
 							</testFilesIncluded>
 						</configuration>
-						<dependencies>		
+						<dependencies>
 							<dependency>
 								<groupId>junit</groupId>
 								<artifactId>junit</artifactId>
-								<version>4.12</version>								
+								<version>4.12</version>
 							</dependency>
 							<dependency>
-							  <groupId>kg.apc</groupId>
-							  <artifactId>jmeter-plugins</artifactId>
-							  <version>1.0.0</version>
-							  <exclusions>
+								<groupId>kg.apc</groupId>
+								<artifactId>jmeter-plugins</artifactId>
+								<version>1.0.0</version>
+								<exclusions>
 									<exclusion>
 										<groupId>kg.apc</groupId>
 										<artifactId>perfmon</artifactId>
@@ -229,98 +274,98 @@
 								</exclusions>
 							</dependency>
 						</dependencies>
-					</plugin>									
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-	
-	
+
+
 	<reporting>
-	    <plugins>
-	        <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-surefire-report-plugin</artifactId>
-	            <version>2.19.1</version>
-	        </plugin>
-	        
-	        <plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.19.1</version>
+			</plugin>
+
+			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>7.0.4</version>
-				<configuration>					
+				<configuration>
 					<!-- Generar todos los formatos del informe -->
 					<format>ALL</format>
 					<!-- No usar Nexus Analyzer -->
 					<centralAnalyzerEnabled>false</centralAnalyzerEnabled>
 					<!-- Validar si estamos utilizando la última versión -->
 					<versionCheckEnabled>true</versionCheckEnabled>
-				</configuration>			
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<reports>
 							<report>aggregate</report>
 						</reports>
 					</reportSet>
-				</reportSets>				
+				</reportSets>
 			</plugin>
-			
+
 			<!-- Spotbugs report -->
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.2.0</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <failOnError>false</failOnError>
-                    <includeFilterFile>src/main/resources/spotbugs-security-include.xml</includeFilterFile>
-                    <excludeFilterFile>src/main/resources/spotbugs-security-exclude.xml</excludeFilterFile>
-                    <xmlOutput>true</xmlOutput>
-                    <!-- Optional directory to put spotbugs xdoc xml report -->
-                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.h3xstream.findsecbugs</groupId>
-                            <artifactId>findsecbugs-plugin</artifactId>
-                            <version>LATEST</version> <!-- Auto-update to the latest stable -->
-                        </plugin>
-                    </plugins>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-project-info-reports-plugin</artifactId>
-	            <version>3.2.2</version>
-	            <configuration>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.2.0</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<failOnError>false</failOnError>
+					<includeFilterFile>src/main/resources/spotbugs-security-include.xml</includeFilterFile>
+					<excludeFilterFile>src/main/resources/spotbugs-security-exclude.xml</excludeFilterFile>
+					<xmlOutput>true</xmlOutput>
+					<!-- Optional directory to put spotbugs xdoc xml report -->
+					<xmlOutputDirectory>target/site</xmlOutputDirectory>
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>LATEST</version> <!-- Auto-update to the latest stable -->
+						</plugin>
+					</plugins>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
-	            <reportSets>
-	                <reportSet>
-	                    <reports>
-	                        <report>ci-management</report>
-	                        <report>dependencies</report>
-	                        <report>dependency-info</report>	                        
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>ci-management</report>
+							<report>dependencies</report>
+							<report>dependency-info</report>
 							<report>dependency-convergence</report>
 							<report>dependency-management</report>
 							<report>distribution-management</report>
 							<report>help</report>
 							<report>index</report>
-							<report>issue-management</report>							
+							<report>issue-management</report>
 							<report>licenses</report>
 							<report>modules</report>
 							<report>plugin-management</report>
 							<report>plugins</report>
 							<report>summary</report>
 							<report>team</report>
-	                    </reports>
-	                </reportSet>
-	            </reportSets>
-	        </plugin>
-            
-	        
-	    </plugins>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+
+		</plugins>
 	</reporting>
 
 </project>
